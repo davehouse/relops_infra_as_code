@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+    log-aggregator:
+        #image: fluent/fluentd:v1.4-2
+        build:
+            context: ./google-fluentd/
+        ports:
+            - "42185:42185"
+        volumes:
+            - ./google-fluentd/aggregate_syslog.conf:/etc/google-fluentd/google-fluentd.conf
+        environment:
+            - SETUP_AUTH_FOR_STACKDRIVER=0
+        restart: always
+
+    rsyslog-client:
+        image: jumanjiman/rsyslog:8.40.0-r3-20190420T1354-git-64eca8b #rsyslog/syslog_appliance_alpine:8.36.0-3.7
+        volumes:
+            - ./rsyslog_forward.conf:/etc/rsyslog.d/forward.conf
+        environment:
+            - TZ=UTC
+        links:
+            - log-aggregator
