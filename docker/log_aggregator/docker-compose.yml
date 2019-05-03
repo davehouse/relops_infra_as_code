@@ -9,8 +9,6 @@ services:
         volumes:
             - ./google-fluentd/aggregate_syslog.conf:/fluentd/etc/fluentd.conf
             - ../log-agg.json:/etc/google/auth/application_default_credentials.json
-        command:
-            fluentd -c /fluentd/etc/fluentd.conf -v
         environment:
             #- GOOGLE_APPLICATION_CREDENTIALS=/log-agg.json
             - SETUP_AUTH_FOR_STACKDRIVER=0
