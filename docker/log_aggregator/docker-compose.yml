@@ -7,10 +7,11 @@ services:
         ports:
             - "42185:42185"
         volumes:
-            - ./google-fluentd/aggregate_syslog.conf:/fluentd/etc/fluentd.conf
+            - ./fluentd.conf:/fluentd/etc/fluent.conf
             - ../log-agg.json:/etc/google/auth/application_default_credentials.json
+            - ../log-agg.json:/log-agg.json
         environment:
-            #- GOOGLE_APPLICATION_CREDENTIALS=/log-agg.json
+            - GOOGLE_APPLICATION_CREDENTIALS=/log-agg.json
             - SETUP_AUTH_FOR_STACKDRIVER=0
         restart: always
 
@@ -22,3 +23,14 @@ services:
             - TZ=UTC
         links:
             - log-aggregator
+
+    read-logs:
+        build:
+            context: ./readlogs/
+        volumes:
+            - ../log-agg.json:/etc/google/auth/application_default_credentials.json
+            - ../log-agg.json:/log-agg.json
+            - ./readlogs/readlogs.py:/readlogs.py
+        environment:
+            - GOOGLE_APPLICATION_CREDENTIALS=/log-agg.json
+            - LOG_NAME=projects/dhouse-test/logs
