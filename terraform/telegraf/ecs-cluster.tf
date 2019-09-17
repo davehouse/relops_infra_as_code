@@ -79,6 +79,10 @@ resource "aws_ecs_task_definition" "app" {
         {
             "name": "INFLUXDB_PASSWORD",
             "valueFrom": "arn:aws:ssm:us-west-2:961225894672:parameter/influxdb_wo_password"
+        },
+        {
+            "name": "GITHUB_WEBHOOK_SECRET",
+            "valueFrom": "arn:aws:ssm:us-west-2:961225894672:parameter/github_webhook_secret"
         }
     ],
     "networkMode": "awsvpc",
