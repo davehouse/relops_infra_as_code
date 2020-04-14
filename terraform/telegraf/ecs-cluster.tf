@@ -124,5 +124,11 @@ resource "aws_ecs_service" "main" {
     container_port = 8086
   }
 
+  load_balancer {
+    target_group_arn = "${aws_lb_target_group.lb_target_group2.arn}"
+    container_name = "telegraf"
+    container_port = 1619
+  }
+
   depends_on = ["aws_lb_listener.front_end", "aws_ecs_task_definition.app"]
 }
