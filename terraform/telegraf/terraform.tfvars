@@ -5,7 +5,7 @@ relay_port = 8086
 webhook_port = 1619
 
 relay_count = 2
-relay_cpu = 1024
+relay_cpu = 512
 relay_memory = 1024
 
 collection_image = "961225894672.dkr.ecr.us-west-2.amazonaws.com/telegraf:1.6"
